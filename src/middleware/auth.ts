@@ -13,7 +13,7 @@ const prisma = new PrismaClient();
 export const authenticateToken = async (
   req: AuthRequest,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ): Promise<void> => {
   try {
     // Extraire le token du header Authorization
@@ -35,6 +35,8 @@ export const authenticateToken = async (
         id: true,
         email: true,
         name: true,
+        createdAt: true,
+        updatedAt: true,
       },
     });
 
@@ -48,6 +50,8 @@ export const authenticateToken = async (
       id: user.id,
       email: user.email,
       name: user.name || undefined,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
     };
     next();
   } catch (error) {
@@ -69,7 +73,7 @@ export const authenticateToken = async (
 export const optionalAuth = async (
   req: AuthRequest,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ): Promise<void> => {
   try {
     const authHeader = req.headers.authorization;

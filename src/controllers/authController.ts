@@ -96,7 +96,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
       sendValidationError(
         res,
         "Données d'inscription invalides",
-        validationErrors
+        validationErrors,
       );
       return;
     }
@@ -111,7 +111,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
         res,
         "Un utilisateur avec cet email existe déjà",
         "EMAIL_ALREADY_EXISTS",
-        409
+        409,
       );
       return;
     }
@@ -146,7 +146,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
         user: newUser,
         token,
       },
-      201
+      201,
     );
   } catch (error) {
     console.error("Erreur lors de l'inscription:", error);
@@ -214,7 +214,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       sendValidationError(
         res,
         "Données de connexion invalides",
-        validationErrors
+        validationErrors,
       );
       return;
     }
@@ -229,7 +229,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
         res,
         "Email ou mot de passe incorrect",
         "INVALID_CREDENTIALS",
-        401
+        401,
       );
       return;
     }
@@ -243,7 +243,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
         res,
         "Email ou mot de passe incorrect",
         "INVALID_CREDENTIALS",
-        401
+        401,
       );
       return;
     }
@@ -257,6 +257,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       email: user.email,
       name: user.name,
       createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
     };
 
     // Envoyer la réponse
@@ -299,7 +300,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
  */
 export const getProfile = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   try {
     // L'utilisateur est déjà disponible grâce au middleware d'authentification
@@ -323,7 +324,7 @@ export const getProfile = async (
  */
 export const updateProfile = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   try {
     const { name, email }: UpdateProfileRequest = req.body;
@@ -340,7 +341,7 @@ export const updateProfile = async (
       sendValidationError(
         res,
         "Données de mise à jour invalides",
-        validationErrors
+        validationErrors,
       );
       return;
     }
@@ -356,7 +357,7 @@ export const updateProfile = async (
           res,
           "Un utilisateur avec cet email existe déjà",
           "EMAIL_ALREADY_EXISTS",
-          409
+          409,
         );
         return;
       }
@@ -397,7 +398,7 @@ export const updateProfile = async (
  */
 export const updatePassword = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   try {
     const { currentPassword, newPassword }: UpdatePasswordRequest = req.body;
@@ -417,7 +418,7 @@ export const updatePassword = async (
       sendValidationError(
         res,
         "Données de mise à jour du mot de passe invalides",
-        validationErrors
+        validationErrors,
       );
       return;
     }
@@ -435,14 +436,14 @@ export const updatePassword = async (
     // Vérifier le mot de passe actuel
     const isCurrentPasswordValid = await bcrypt.compare(
       currentPassword,
-      user.password
+      user.password,
     );
     if (!isCurrentPasswordValid) {
       sendError(
         res,
         "Mot de passe actuel incorrect",
         "INVALID_CURRENT_PASSWORD",
-        401
+        401,
       );
       return;
     }

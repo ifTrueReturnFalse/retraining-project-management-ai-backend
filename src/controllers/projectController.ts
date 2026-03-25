@@ -86,7 +86,7 @@ const prisma = new PrismaClient();
  */
 export const createProject = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   try {
     const { name, description, contributors }: CreateProjectRequest = req.body;
@@ -107,7 +107,7 @@ export const createProject = async (
       sendValidationError(
         res,
         "Données de création de projet invalides",
-        validationErrors
+        validationErrors,
       );
       return;
     }
@@ -208,7 +208,7 @@ export const createProject = async (
       res,
       "Projet créé avec succès",
       { project: projectWithMembers },
-      201
+      201,
     );
   } catch (error) {
     console.error("Erreur lors de la création du projet:", error);
@@ -250,7 +250,7 @@ export const createProject = async (
  */
 export const getProjects = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   try {
     const authReq = req as AuthRequest;
@@ -311,7 +311,7 @@ export const getProjects = async (
           ...project,
           userRole: role,
         };
-      })
+      }),
     );
 
     sendSuccess(res, "Projets récupérés avec succès", {
@@ -329,7 +329,7 @@ export const getProjects = async (
  */
 export const getProject = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   try {
     const { id } = req.params;
@@ -368,25 +368,6 @@ export const getProject = async (
             },
           },
         },
-        tasks: {
-          include: {
-            creator: {
-              select: {
-                id: true,
-                email: true,
-                name: true,
-              },
-            },
-          },
-          orderBy: {
-            createdAt: "desc",
-          },
-        },
-        _count: {
-          select: {
-            tasks: true,
-          },
-        },
       },
     });
 
@@ -413,7 +394,7 @@ export const getProject = async (
  */
 export const updateProject = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   try {
     const { id } = req.params;
@@ -431,7 +412,7 @@ export const updateProject = async (
       sendValidationError(
         res,
         "Données de mise à jour invalides",
-        validationErrors
+        validationErrors,
       );
       return;
     }
@@ -443,7 +424,7 @@ export const updateProject = async (
         res,
         "Vous n'avez pas les permissions pour modifier ce projet",
         "FORBIDDEN",
-        403
+        403,
       );
       return;
     }
@@ -502,7 +483,7 @@ export const updateProject = async (
  */
 export const deleteProject = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   try {
     const { id } = req.params;
@@ -520,7 +501,7 @@ export const deleteProject = async (
         res,
         "Vous n'avez pas les permissions pour supprimer ce projet",
         "FORBIDDEN",
-        403
+        403,
       );
       return;
     }
@@ -543,7 +524,7 @@ export const deleteProject = async (
  */
 export const addContributor = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   try {
     const { id } = req.params;
@@ -562,7 +543,7 @@ export const addContributor = async (
         res,
         "Vous n'avez pas les permissions pour modifier ce projet",
         "FORBIDDEN",
-        403
+        403,
       );
       return;
     }
@@ -592,7 +573,7 @@ export const addContributor = async (
         res,
         "L'utilisateur est déjà membre de ce projet",
         "USER_ALREADY_MEMBER",
-        409
+        409,
       );
       return;
     }
@@ -619,7 +600,7 @@ export const addContributor = async (
  */
 export const removeContributor = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   try {
     const { id, userId } = req.params;
@@ -637,7 +618,7 @@ export const removeContributor = async (
         res,
         "Vous n'avez pas les permissions pour modifier ce projet",
         "FORBIDDEN",
-        403
+        403,
       );
       return;
     }
@@ -649,7 +630,7 @@ export const removeContributor = async (
         res,
         "Le propriétaire du projet ne peut pas se retirer",
         "CANNOT_REMOVE_OWNER",
-        400
+        400,
       );
       return;
     }
@@ -718,7 +699,7 @@ export const removeContributor = async (
  */
 export const searchUsers = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   try {
     const { query } = req.query;
@@ -740,7 +721,7 @@ export const searchUsers = async (
         res,
         "La recherche doit contenir au moins 2 caractères",
         "INVALID_QUERY",
-        400
+        400,
       );
       return;
     }

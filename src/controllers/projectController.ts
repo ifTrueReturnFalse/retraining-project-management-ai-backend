@@ -174,40 +174,10 @@ export const createProject = async (
       }
     }
 
-    // Récupérer le projet avec les membres mis à jour
-    const projectWithMembers = await prisma.project.findUnique({
-      where: { id: project.id },
-      include: {
-        owner: {
-          select: {
-            id: true,
-            email: true,
-            name: true,
-          },
-        },
-        members: {
-          include: {
-            user: {
-              select: {
-                id: true,
-                email: true,
-                name: true,
-              },
-            },
-          },
-        },
-        _count: {
-          select: {
-            tasks: true,
-          },
-        },
-      },
-    });
-
     sendSuccess(
       res,
       "Projet créé avec succès",
-      { project: projectWithMembers },
+      { projectId: project.id },
       201,
     );
   } catch (error) {

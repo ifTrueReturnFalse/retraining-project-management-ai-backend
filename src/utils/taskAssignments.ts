@@ -72,5 +72,7 @@ export const getTaskAssignments = async (taskId: string) => {
     id: assignee.id,
     assignedAt: assignee.assignedAt,
     user: assignee.user,
+    taskId: taskId,
+    userId: assignee.user.id
   }));
 };

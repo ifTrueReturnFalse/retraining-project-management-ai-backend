@@ -28,5 +28,7 @@ export const getTaskComments = async (taskId: string) => {
     createdAt: comment.createdAt,
     updatedAt: comment.updatedAt,
     author: comment.author,
+    authorId: comment.authorId,
+    taskId: taskId,
   }));
 };

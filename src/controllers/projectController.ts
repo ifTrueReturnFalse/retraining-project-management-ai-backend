@@ -141,6 +141,20 @@ export const createProject = async (
       },
     });
 
+    // Ajout de l'owner comme membre de l'équipe
+    try {
+      await prisma.projectMember.create({
+        data: {
+          userId: authReq.user.id,
+          projectId: project.id,
+          role: "ADMIN",
+        },
+      });
+    } catch (error) {
+      // Ignorer les erreurs de doublons
+      console.log(`Utilisateur ${authReq.user.name} déjà membre du projet`);
+    }
+
     // Ajouter les contributeurs si fournis
     if (contributors && contributors.length > 0) {
       const contributorUsers = await prisma.user.findMany({
@@ -174,12 +188,7 @@ export const createProject = async (
       }
     }
 
-    sendSuccess(
-      res,
-      "Projet créé avec succès",
-      { projectId: project.id },
-      201,
-    );
+    sendSuccess(res, "Projet créé avec succès", { projectId: project.id }, 201);
   } catch (error) {
     console.error("Erreur lors de la création du projet:", error);
     sendServerError(res, "Erreur lors de la création du projet");

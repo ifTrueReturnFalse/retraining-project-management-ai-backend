@@ -377,7 +377,7 @@ export const updateProject = async (
 ): Promise<void> => {
   try {
     const { id } = req.params;
-    const { name, description }: UpdateProjectRequest = req.body;
+    const { name, description, contributors }: UpdateProjectRequest = req.body;
     const authReq = req as AuthRequest;
 
     if (!authReq.user) {
@@ -417,9 +417,21 @@ export const updateProject = async (
       updateData.description = description?.trim() || null;
     }
 
+    // Modification pour mise a jour des membres en une requete
+    const memberOperations = contributors?.map((memberId) => ({
+      where: { userId_projectId: { userId: memberId, projectId: id } },
+      create: { userId: memberId, role: "CONTRIBUTOR" },
+    }));
+
     const updatedProject = await prisma.project.update({
       where: { id },
-      data: updateData,
+      data: {
+        ...updateData,
+        members: {
+          deleteMany: { role: "CONTRIBUTOR" },
+          connectOrCreate: memberOperations,
+        },
+      },
       include: {
         owner: {
           select: {

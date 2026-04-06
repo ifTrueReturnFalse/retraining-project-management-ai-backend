@@ -53,6 +53,7 @@ export interface CreateProjectRequest {
 export interface UpdateProjectRequest {
   name?: string;
   description?: string;
+  contributors?: string[]
 }
 
 export interface AddContributorRequest {

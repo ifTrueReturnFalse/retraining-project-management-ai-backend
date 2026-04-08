@@ -49,6 +49,7 @@ export const createTask = async (
       priority,
       dueDate,
       assigneeIds,
+      status,
     }: CreateTaskRequest = req.body;
     const authReq = req as AuthRequest;
 
@@ -64,6 +65,7 @@ export const createTask = async (
       priority,
       dueDate,
       assigneeIds,
+      status,
     });
     if (validationErrors.length > 0) {
       sendValidationError(
@@ -125,6 +127,7 @@ export const createTask = async (
       title: title.trim(),
       description: description?.trim() || null,
       priority: priority || "MEDIUM",
+      status: status || "TODO",
       dueDate: dueDate ? new Date(dueDate) : null,
       projectId,
       creatorId: authReq.user.id,

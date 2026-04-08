@@ -132,6 +132,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
         email: true,
         name: true,
         createdAt: true,
+        updatedAt: true,
       },
     });
 

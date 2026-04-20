@@ -1,4 +1,7 @@
 # OpenClassrooms - Backend Abricot
+>[!NOTE]
+>🇫🇷 Ce repo est fourni par OpenClassroom. Il a ensuite étré modifié par mes soins pour accomplir le projet.  
+>🇬🇧 This repo was originally provided by OpenClassrooms and subsequently modified by me to meet the project requirements.
 
 Cette base de code est l'API REST complète pour l'authentification et la gestion de projets avec système de rôles et de permissions pour le projet Abricot.
 
@@ -50,7 +53,10 @@ http://localhost:8000/api-docs
 - Serveur backend démarré (`npm run dev`)
 - Base de données accessible
 
+
 ## Seed de la database
+>[!WARNING]
+>Je ne conseille pas le seed, le fichier fourni contient des valeurs incohérentes.
 
 Il existe un script pour peupler la base de données avec des données de test réalistes pour tester toutes les fonctionnalités de l'application.
 
